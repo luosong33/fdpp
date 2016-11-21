@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="code">
+    <resultMap type="map" id="acc1">
+        <result column="code" property="code" javaType="string" />
+        <result column="name" property="name" javaType="string" />
+    </resultMap>
+    <resultMap type="map" id="test">
+        <result column="sysdate" property="sysdate" javaType="string"/>
+        <result column="datea" property="datea" javaType="string"/>
+    </resultMap>
+    <resultMap type="map" id="test_t">
+        <result column="statdate_CHR" property="statdate_CHR" javaType="string"/>
+        <result column="STATDATE" property="STATDATE" javaType="string"/>
+        <result column="STAT_CHAR" property="STAT_CHAR" javaType="string"/>
+        <result column="SYSDATE" property="SYSDATE" javaType="string"/>
+        <result column="dsignpremium" property="dsignpremium" javaType="string"/>
+        <result column="dsignqty" property="dsignqty" javaType="string"/>
+    </resultMap>
+
+    <select id="testinfo" resultMap="test" parameterType="String">
+    <![CDATA[
+
+    SELECT p1.dsignqty
+      FROM DM_quick_policy_time p1
+          where    p1.statdate = (
+            SELECT  max(P2.statdate)
+      FROM DM_QUICK_POLICY_time P2
+     where p2.producttypecode = '00'
+        and p2.provinccode = '00000000'
+        and p2.statdate >= ${tools.parse()}
+        and TRUNC(p2.statdate,'DD') = trunc(#{sysdate}, 'DD') - 7
+        and to_char(p2.statdate, 'HH24:mi') >= '08:00'
+        and to_char(p2.statdate, 'HH24:mi') < to_char(#{sysdate}, 'HH24:mi')
+        )
+
+            ]]>
+    </select>
+
+
+    <!--<select id="sysdate" resultMap="test" parameterType="String">
+    <![CDATA[
+
+    select distinct sysdate , TO_CHAR(SYSDATE, 'YYYY-MM-DD HH24:MI:SS') datea from d_com
+
+    ]]>
+    </select>-->
+
+    <select id="sysdate" resultType="java.util.HashMap" parameterType="map">
+    <![CDATA[
+
+    SELECT to_char(p1.statdate, 'yyyy-MM-dd HH24:mi:ss') statdate_CHR,
+       P1.STATDATE statdate,
+       to_char(current_timestamp, 'YYYY-MM-DD HH24:MI:SS') sys_CHAR,
+       current_timestamp sys,
+       to_char(#{sysdate}, 'YYYY-MM-DD HH24:MI:SS') java_CHAR,
+       #{sysdate} java,
+       ceil(to_number(p1.dsignpremium)) dsignpremium,
+       p1.dsignqty
+  FROM DM_quick_policy_time p1
+ where p1.statdate =
+       (SELECT max(P2.statdate)
+          FROM DM_QUICK_POLICY_time P2
+         where p2.producttypecode = '00'
+           and p2.provinccode = '00000000'
+           and TRUNC(p2.statdate,'DD') = trunc(#{sysdate}, 'DD') - 7
+           and to_char(p2.statdate, 'HH24:mi') >= '08:00'
+           and to_char(p2.statdate, 'HH24:mi') < to_char(#{sysdate}, 'HH24:mi')
+           )
+
+    ]]>
+    </select>
+</mapper>

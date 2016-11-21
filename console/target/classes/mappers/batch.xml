@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="batch">
+
+    <resultMap type="map" id="baofei">
+        <result column="statdate" property="time" javaType="string"/>
+        <result column="provinccode" property="provinccode" javaType="string"/>
+        <result column="provincname" property="provincname" javaType="string"/>
+        <result column="producttypecode" property="producttypecode" javaType="string"/>
+        <result column="producttypename" property="producttypename" javaType="string"/>
+        <result column="chgpremium" property="data2" javaType="string"/>
+        <result column="chgqty" property="data5" javaType="string"/>
+        <result column="dchgpremium" property="data3" javaType="string"/>
+        <result column="dchgqty" property="data1" javaType="string"/>
+    </resultMap>
+
+    <select id="findBaofeiInfo" resultMap="baofei" parameterType="map">
+        <![CDATA[
+
+ SELECT to_char(P2.statdate, 'HH24:mi') statdate,
+       p2.provinccode,
+       p2.provincname,
+       p2.producttypecode,
+       p2.producttypename,
+       p2.chgpremium,
+       p2.chgqty,
+       p2.dchgpremium,
+       p2.dchgqty
+  FROM DM_QUICK_endorse_time P2
+ where p2.producttypecode = '00'
+   and p2.provinccode = '00000000'
+
+   and p2.statdate >= trunc(#{sysdate} , 'DD')
+   and p2.statdate < trunc(#{sysdate} , 'DD')+1
+   and to_char(p2.statdate, 'HH24:mi') >= '08:00'
+   and to_char(p2.statdate, 'HH24:mi') < to_char(#{sysdate}, 'HH24:mi')
+ order by to_char(P2.statdate, 'HH24:mi')
+
+        ]]>
+    </select>
+
+    <select id="car_findBaofeiInfo" resultMap="baofei" parameterType="map">
+        <![CDATA[
+
+ SELECT to_char(P2.statdate, 'HH24:mi') statdate,
+       p2.provinccode,
+       p2.provincname,
+       p2.producttypecode,
+       p2.producttypename,
+       p2.chgpremium,
+       p2.chgqty,
+       p2.dchgpremium,
+       p2.dchgqty
+  FROM DM_QUICK_endorse_time P2
+ where p2.producttypecode = '05'
+   and p2.provinccode = '00000000'
+
+   and p2.statdate >= trunc(#{sysdate} , 'DD')
+   and p2.statdate < trunc(#{sysdate} , 'DD')+1
+   and to_char(p2.statdate, 'HH24:mi') >= '08:00'
+   and to_char(p2.statdate, 'HH24:mi') < to_char(#{sysdate}, 'HH24:mi')
+ order by to_char(P2.statdate, 'HH24:mi')
+
+        ]]>
+    </select>
+
+    <select id="biznocar_findBaofeiInfo" resultMap="baofei" parameterType="map">
+        <![CDATA[
+
+ SELECT to_char(P2.statdate, 'HH24:mi') statdate,
+       p2.provinccode,
+       p2.provincname,
+       p2.producttypecode,
+       p2.producttypename,
+       p2.chgpremium,
+       p2.chgqty,
+       p2.dchgpremium,
+       p2.dchgqty
+  FROM DM_QUICK_endorse_time P2
+ where p2.producttypecode = '01'
+   and p2.provinccode = '00000000'
+
+   and p2.statdate >= trunc(#{sysdate} , 'DD')
+   and p2.statdate < trunc(#{sysdate} , 'DD')+1
+   and to_char(p2.statdate, 'HH24:mi') >= '08:00'
+   and to_char(p2.statdate, 'HH24:mi') < to_char(#{sysdate}, 'HH24:mi')
+ order by to_char(P2.statdate, 'HH24:mi')
+
+        ]]>
+    </select>
+
+    <select id="other_findBaofeiInfo" resultMap="baofei" parameterType="map">
+        <![CDATA[
+
+ SELECT to_char(P2.statdate, 'HH24:mi') statdate,
+       p2.provinccode,
+       p2.provincname,
+       p2.producttypecode,
+       p2.producttypename,
+       p2.chgpremium,
+       p2.chgqty,
+       p2.dchgpremium,
+       p2.dchgqty
+  FROM DM_QUICK_endorse_time P2
+ where p2.producttypecode = '10'
+   and p2.provinccode = '00000000'
+
+   and p2.statdate >= trunc(#{sysdate} , 'DD')
+   and p2.statdate < trunc(#{sysdate} , 'DD')+1
+   and to_char(p2.statdate, 'HH24:mi') >= '08:00'
+   and to_char(p2.statdate, 'HH24:mi') < to_char(#{sysdate}, 'HH24:mi')
+ order by to_char(P2.statdate, 'HH24:mi')
+
+        ]]>
+    </select>
+
+
+</mapper>

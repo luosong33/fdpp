@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <resourceExtensions />
+    <wildcardResourcePatterns>
+      <entry name="!?*.java" />
+      <entry name="!?*.form" />
+      <entry name="!?*.class" />
+      <entry name="!?*.groovy" />
+      <entry name="!?*.scala" />
+      <entry name="!?*.flex" />
+      <entry name="!?*.kt" />
+      <entry name="!?*.clj" />
+      <entry name="!?*.aj" />
+    </wildcardResourcePatterns>
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="false">
+        <processorPath useClasspath="true" />
+      </profile>
+      <profile default="false" name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+        <module name="fdpp-console" />
+        <module name="fdpp-controller" />
+        <module name="fdpp-coprocessor" />
+        <module name="fdpp-increment" />
+        <module name="fdpp-initializer" />
+        <module name="fdpp-sqlexecutor" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="fdpp-console" target="1.7" />
+      <module name="fdpp-controller" target="1.7" />
+      <module name="fdpp-coprocessor" target="1.7" />
+      <module name="fdpp-increment" target="1.7" />
+      <module name="fdpp-initializer" target="1.7" />
+      <module name="fdpp-parent" target="1.5" />
+      <module name="fdpp-sqlexecutor" target="1.7" />
+      <module name="initializer" target="1.7" />
+      <module name="webapp" target="1.7" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

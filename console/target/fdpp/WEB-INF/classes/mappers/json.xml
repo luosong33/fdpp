@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="json">
+    <resultMap type="map" id="acc">
+        <result column="statdate" property="statdate" javaType="string"/>
+        <result column="dsignpremium" property="dsignpremium" javaType="string"/>
+        <result column="dsignqty" property="dsignqty" javaType="string"/>
+    </resultMap>
+    <resultMap type="map" id="jg">
+        <result column="provincname" property="provincname" javaType="string"/>
+        <result column="dsignpremium" property="dsignpremium" javaType="string"/>
+        <result column="dsignqty" property="dsignqty" javaType="string"/>
+    </resultMap>
+    <resultMap type="map" id="baofei">
+        <result column="statdate" property="time" javaType="string"/>
+        <result column="provinccode" property="provinccode" javaType="string"/>
+        <result column="provincname" property="provincname" javaType="string"/>
+        <result column="producttypecode" property="producttypecode" javaType="string"/>
+        <result column="producttypename" property="producttypename" javaType="string"/>
+        <result column="signpremium" property="data2" javaType="string"/>
+        <result column="signqty" property="data5" javaType="string"/>
+        <result column="dsignpremium" property="data3" javaType="string"/>
+        <result column="dsignqty" property="data1" javaType="string"/>
+    </resultMap>
+    <select id="findJrbfInfo" resultMap="acc" parameterType="map">
+      <![CDATA[
+
+SELECT to_char(p1.statdate, 'yyyy-MM-dd HH24:mi:ss') statdate,
+       ceil(to_number(p1.dsignpremium)) dsignpremium,
+       p1.dsignqty
+  FROM dm_quick_policy_time1 p1
+ where p1.statdate =
+       (SELECT max(P2.statdate)
+          FROM dm_quick_policy_time1 P2
+         where p2.producttypecode = '00'
+           and p2.provinccode = '00000000'
+           and p2.statdate >= trunc(#{sysdate}  - 7, 'DD')
+           and p2.statdate < trunc(#{sysdate}  - 7, 'DD') + 1
+           and to_char(p2.statdate, 'HH24:mi') >= '08:00'
+           and to_char(p2.statdate, 'HH24:mi') < to_char(#{sysdate}, 'HH24:mi'))
+
+        ]]>
+    </select>
+    <select id="findBaofeiInfo" resultMap="baofei" parameterType="map">
+        <![CDATA[
+
+ SELECT to_char(P2.statdate, 'HH24:mi') statdate,
+       p2.provinccode,
+       p2.provincname,
+       p2.producttypecode,
+       p2.producttypename,
+       p2.signpremium,
+       p2.signqty,
+       p2.dsignpremium,
+       p2.dsignqty
+  FROM dm_quick_policy_time1 P2
+ where p2.producttypecode = '00'
+   and p2.provinccode = '00000000'
+
+   and p2.statdate >= trunc(#{sysdate}  - 7, 'DD')
+   and p2.statdate < trunc(#{sysdate}  - 7, 'DD') + 1
+   and to_char(p2.statdate, 'HH24:mi') >= '08:00'
+   and to_char(p2.statdate, 'HH24:mi') < to_char(#{sysdate}, 'HH24:mi')
+ order by to_char(P2.statdate, 'HH24:mi')
+
+        ]]>
+    </select>
+    <select id="findXzbfInfo" resultMap="baofei" parameterType="map">
+        <![CDATA[
+
+SELECT SUBSTR(to_char(P2.statdate, 'HH24:mi'), 1, 4) || '0' statdate,
+       SUM(P2.SIGNPREMIUM) signpremium,
+       SUM(P2.SIGNQTY) signqty
+  FROM dm_quick_policy_time1 P2
+ WHERE P2.PRODUCTTYPECODE = '00'
+   AND P2.PROVINCCODE = '00000000'
+   and p2.statdate >= trunc(#{sysdate}  - 7, 'DD')
+   and p2.statdate < trunc(#{sysdate} - 7, 'DD') + 1
+   and to_char(p2.statdate, 'HH24:mi') >= '08:00'
+   and to_char(p2.statdate, 'HH24:mi') < to_char(#{sysdate}, 'HH24:mi')
+ GROUP BY SUBSTR(to_char(P2.statdate, 'HH24:mi'), 1, 4) || '0'
+
+        ]]>
+
+    </select>
+    <select id="findjgInfo" resultMap="jg" parameterType="map">
+        <![CDATA[
+            select t.provincname, t.dsignpremium, t.dsignqty
+              from dm_quick_policy_time1 t
+              join (select max(statdate) statdate, provinccode, provincname
+                      from dm_quick_policy_time1
+                     group by provinccode, provincname) t1
+                on t.statdate = t1.statdate
+               and t.provinccode = t1.provinccode
+               and t.provincname = t1.provincname
+             where producttypecode = '00' and t.provinccode<>'00000000'
+             order by t.provinccode
+        ]]>
+    </select>
+</mapper>

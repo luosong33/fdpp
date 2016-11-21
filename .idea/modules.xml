@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/console/fdpp-console.iml" filepath="$PROJECT_DIR$/console/fdpp-console.iml" />
+      <module fileurl="file://$PROJECT_DIR$/controller/fdpp-controller.iml" filepath="$PROJECT_DIR$/controller/fdpp-controller.iml" />
+      <module fileurl="file://$PROJECT_DIR$/coprocessor/fdpp-coprocessor.iml" filepath="$PROJECT_DIR$/coprocessor/fdpp-coprocessor.iml" />
+      <module fileurl="file://$PROJECT_DIR$/increment/fdpp-increment.iml" filepath="$PROJECT_DIR$/increment/fdpp-increment.iml" />
+      <module fileurl="file://$PROJECT_DIR$/initializer/fdpp-initializer.iml" filepath="$PROJECT_DIR$/initializer/fdpp-initializer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/fdpp-parent.iml" filepath="$PROJECT_DIR$/fdpp-parent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sqlexecutor/fdpp-sqlexecutor.iml" filepath="$PROJECT_DIR$/sqlexecutor/fdpp-sqlexecutor.iml" />
+    </modules>
+  </component>
+</project>
